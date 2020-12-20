@@ -18,8 +18,28 @@ def click(text):
         if start:
             lastcommand = text
         else:
+            calculate(float(display.cget('text')))
             lastcommand = text
             start = True
+
+def calculate(x):
+    global lastcommand
+    global result
+    global display
+    if lastcommand == "+":
+        result += x
+    elif lastcommand == '-':
+        result -= x
+    elif lastcommand == '*':
+        result *= x
+    elif lastcommand == '/':
+        try:
+            result /= x
+        except ZeroDivisionError:
+            pass
+    elif lastcommand == '=':
+        result = x
+    display.configure(text=result)
 
 root = Tk()
 root.title("Калькулятор")
