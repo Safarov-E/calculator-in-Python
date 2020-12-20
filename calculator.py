@@ -1,5 +1,26 @@
 from tkinter import *
 
+start = True
+lastcommand = '='
+resultnumber = 0
+
+def click(text):
+    global start
+    global lastcommand
+    global display
+    if text.isdigit() or text == '.':
+        if start:
+            display.configure(text="")
+            start = False
+        if text != '.' or display.cget('text').find('.') == -1:
+            display.configure(text=(display.cget('text') + text))
+    else:
+        if start:
+            lastcommand = text
+        else:
+            lastcommand = text
+            start = True
+
 root = Tk()
 root.title("Калькулятор")
 root.resizable(False, False)
@@ -9,12 +30,12 @@ buttons = (('7', '8', '9', '/'),
             ('1', '2', '3', '-'),
             ('0', '.', '=', '+'))
 
-result = Label(root, text="0", font="Tahoma 20", bd=10)
-result.grid(row=0, column=0, columnspan=4)
+display = Label(root, text="0", font="Tahoma 20", bd=10)
+display.grid(row=0, column=0, columnspan=4)
 
 for row in range(4):
     for column in range(4):
-        button = Button(root, text=buttons[row][column], font="Tahoma 20")
+        button = Button(root, text=buttons[row][column], font="Tahoma 20", command=lambda text=buttons[row][column]: click(text))
         button.grid(row=row+1, column=column, padx=5, pady=5, ipadx=20, ipady=20, sticky="nsew")
 
 w = root.winfo_reqwidth()
